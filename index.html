@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabrosas Empanadas & More</title>
+
+    <style>
+        body {
+            background: linear-gradient(to right, rgb(204, 27, 145) 0%, rgb(193, 204, 197) 100%);
+            color: white;
+        }
+
+        table,
+        tr,
+        td {
+            border: solid black 1px;
+            border-collapse: collapse;
+            padding: 3px;
+        }
+
+        img {
+            width: 250px;
+            height: auto;
+        }
+
+        a:link,
+        a:visited {
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <form name="theform">
+            <tr>
+                <td colspan="2">
+                    <h1>Sabrosas Empanadas</h1>
+                    <h3>Catering Invoice<br>
+                        Sabrosas Empanadas & More<br>
+                        111 Pecan Blvd.<br>
+                        McAllen, Texas 78501<br>
+                        (956)123-4567</h3>
+                </td>
+
+                <td colspan="2" id="display"></td>
+            </tr>
+
+            <tr>
+                <td><strong>MENU ITEM</strong></td>
+                <td><strong>UNIT PRICE</strong></td>
+                <td><strong>QUANTITY</strong></td>
+                <td><strong>LINE TOTAL</strong></td>
+            </tr>
+
+            <tr>
+                <td>Empanadas: Chicken</td>
+                <td>$2.98</td>
+                <td><input name="chickenFmQty" size="10"></td>
+                <td style="background-color: white; color: black" id="chickenFmOutput"></td>
+            </tr>
+
+            <tr>
+                <td>Empanadas: Rib</td>
+                <td>$2.98</td>
+                <td><input name="ribFmQty" size="10"></td>
+                <td style="background-color: white; color: black" id="ribFmOutput"></td>
+            </tr>
+
+            <tr>
+                <td>Empanadas: Cheese</td>
+                <td>$3.75</td>
+                <td><input name="cheeseFmQty" size="10"></td>
+                <td style="background-color: white; color: black" id="cheeseFmOutput"></td>
+            </tr>
+
+            <tr>
+                <td>Sides: Beans and Rice</td>
+                <td>$1.98</td>
+                <td><input name="beansFmQty" size="10"></td>
+                <td style="background-color: white; color: black" id="beansFmOutput"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td><span style="float: right">TAX: (8.25%)</span></td>
+                <td style="background-color: white; color: black" id="taxFmOutput"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td><span style="float: right">TOTAL:</span></td>
+                <td style="background-color: white; color: black" id="totalFmOutput"></td>
+            </tr>
+
+            <tr>
+                <td><input type="button" name="calc" value="Calculate" onclick="calculate();">
+                    <input type="button" name="clear" value="Clear" onclick="clearinfo();"></td>
+                <td colspan="2"> <span style="float: right">TOTAL AFTER DISCOUNT: (25%)</span></td>
+                <td style="background-color: white; color: black" id="totalAfterDiscountFmOutput"></td>
+            </tr>
+        </form>
+    </table>
+
+    <script>
+        // declare the calculate function
+        function calculate() {
+            // declare the constants and the varaibles
+            const chickenUnitPrice = 2.98;
+            const ribUnitPrice = 2.98;
+            const cheeseUnitPrice = 3.75;
+            const beansUnitPrice = 1.98;
+
+            var chickenQty;
+            var ribQty;
+            var cheeseQty;
+            var beansQty;
+
+            var totalChicken;
+            var totalRib;
+            var totalCheese;
+            var totalBeans;
+
+            var tax;
+            var total;
+            var totalAfterDiscount;
+
+            // Get the values from the text fields
+            chickenQty = parseInt(document.theform.chickenFmQty.value);
+            ribQty = parseInt(document.theform.ribFmQty.value);
+            cheeseQty = parseInt(document.theform.cheeseFmQty.value);
+            beansQty = parseInt(document.theform.beansFmQty.value);
+
+            // Perform all calculations
+            totalChicken = parseFloat(chickenUnitPrice * chickenQty);
+            totalRib = parseFloat(ribUnitPrice * ribQty);
+            totalCheese = parseFloat(cheeseUnitPrice * cheeseQty);
+            totalBeans = parseFloat(beansUnitPrice * beansQty);
+
+            tax = parseFloat((totalChicken + totalRib + totalCheese + totalBeans) * .0825);
+            total = parseFloat(totalChicken + totalRib + totalCheese + totalBeans + tax);
+            totalAfterDiscount = parseFloat(total - (total * .25));
+
+            // display all calculations
+            document.getElementById("chickenFmOutput").innerHTML = "$ " + totalChicken.toFixed(2);
+            document.getElementById("ribFmOutput").innerHTML = "$ " + totalRib.toFixed(2);
+            document.getElementById("cheeseFmOutput").innerHTML = "$ " + totalCheese.toFixed(2);
+            document.getElementById("beansFmOutput").innerHTML = "$ " + totalBeans.toFixed(2);
+
+            document.getElementById("taxFmOutput").innerHTML = "$ " + tax.toFixed(2);
+            document.getElementById("totalFmOutput").innerHTML = "$ " + total.toFixed(2);
+            document.getElementById("totalAfterDiscountFmOutput").innerHTML = "$ " + totalAfterDiscount.toFixed(2);
+        }
+        // declare the CLEAR function
+        function clearinfo() {
+            document.theform.chickenFmQty.value = " ";
+            document.theform.ribFmQty.value = " ";
+            document.theform.cheeseFmQty.value = " ";
+            document.theform.beansFmQty.value = " ";
+
+            document.getElementById("chickenFmOutput").innerHTML = " ";
+            document.getElementById("ribFmOutput").innerHTML = " ";
+            document.getElementById("cheeseFmOutput").innerHTML = " ";
+            document.getElementById("beansFmOutput").innerHTML = " ";
+
+            document.getElementById("taxFmOutput").innerHTML = " ";
+            document.getElementById("totalFmOutput").innerHTML = " ";
+            document.getElementById("totalAfterDiscountFmOutput").innerHTML = " ";
+
+            document.theform.chickenFmQty.focus();
+        }
+
+        function getImages() {
+
+            document.theform.chickenFmQty.focus();
+
+            // Create the array of images
+            images = new Array(5);
+
+            // type in the getElementById line here
+            display = document.getElementById("display");
+
+            // Initialize the array with the images
+            images[0] = "<img src='bread1.jpg' alt='image of bread 1'>";
+            images[1] = "<img src='bread2.jpg' alt='image of bread 2'>";
+            images[2] = "<img src='bread3.jpg' alt='image of bread 3'>";
+            images[3] = "<img src='bread4.jpg' alt='image of bread 4'>";
+            images[4] = "<img src='bread5.jpg' alt='image of bread 5'>";
+
+            // Get a random index into the array
+            x = Math.floor(Math.random() * images.length);
+
+            //Display the image on the HTML table 
+            display.innerHTML = images[x];
+        }
+        getImages();
+    </script>
+
+    <p></p>
+
+<a href="http://csnet.southtexascollege.edu/localuser/wpena1/">Go Back to HOMEPAGE</a>
+<p>William Pena</p>
+
+</body>
+
+</html>
